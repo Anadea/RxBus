@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">RxBus</string>
+    <string name="event_one">Event.ONE</string>
+    <string name="event_two">Event.TWO</string>
+    <string name="message">Message</string>
+    <string name="fragment_one">Fragment One</string>
+    <string name="fragment_two">Fragment Two</string>
+    <string name="event_one_received">Event.ONE times:&#160;</string>
+    <string name="message_received">Message times:&#160;</string>
+    <string name="event_two_received">Event.TWO times:&#160;</string>
+    <string name="received_from">Activity received from:&#160;</string>
+
+</resources>

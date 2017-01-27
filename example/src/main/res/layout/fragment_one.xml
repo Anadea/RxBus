@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentOne_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    android:background="@android:color/holo_orange_dark">
+
+    <Button
+        android:id="@+id/fragmentOne_sendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/fragment_one"
+        tools:ignore="RelativeOverlap" />
+
+    <LinearLayout
+        android:id="@+id/fragmentOne_eventOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/event_one_received" />
+
+        <TextView
+            android:id="@+id/fragmentOne_eventOneCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:freezesText="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragmentOne_eventOne"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/message_received" />
+
+        <TextView
+            android:id="@+id/fragmentOne_eventMessageCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:freezesText="true" />
+    </LinearLayout>
+
+</RelativeLayout>
