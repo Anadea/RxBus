@@ -15,3 +15,14 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @com.anadeainc.rxbus.Subscribe public *;
+}
+
+-keep enum com.anadeainc.example.FragmentEvent { *; }
+
+-dontnote android.net.http.*
+-dontnote org.apache.commons.codec.**
+-dontnote org.apache.http.**

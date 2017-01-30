@@ -29,6 +29,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    lintOptions {
+        disable 'GoogleAppIndexingWarning', 'Overdraw'
+        return void
+    }
+
 }
 
 dependencies {
