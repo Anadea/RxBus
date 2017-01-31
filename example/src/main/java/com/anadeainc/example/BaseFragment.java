@@ -8,11 +8,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.anadeainc.rxbus.Bus;
+import com.anadeainc.rxbus.BusProvider;
 import com.anadeainc.rxbus.RxBus;
 
 public abstract class BaseFragment extends Fragment {
 
-    protected Bus eventBus = RxBus.getInstance();
+    protected Bus eventBus = BusProvider.getInstance();
 
     protected TextView messageCountView;
     protected int messageCount;

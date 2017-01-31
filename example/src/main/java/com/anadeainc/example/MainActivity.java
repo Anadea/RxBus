@@ -6,12 +6,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.anadeainc.rxbus.Bus;
+import com.anadeainc.rxbus.BusProvider;
 import com.anadeainc.rxbus.RxBus;
 import com.anadeainc.rxbus.Subscribe;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Bus eventBus = RxBus.getInstance();
+    private Bus eventBus = BusProvider.getInstance();
 
     private Button eventOneButton;
     private Button eventTwoButton;
