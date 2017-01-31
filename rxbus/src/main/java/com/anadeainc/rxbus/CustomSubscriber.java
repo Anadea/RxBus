@@ -24,7 +24,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.internal.functions.ObjectHelper;
 
-public final class CustomSubscriber<T> extends AbstractSubscriber<T> {
+public class CustomSubscriber<T> extends AbstractSubscriber<T> {
 
     private final int hashCode;
 

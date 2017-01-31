@@ -41,7 +41,7 @@ public class RxBusAnnotatedSubscriptionTest {
     @Mock
     Object event;
 
-    private Bus bus = RxBus.getInstance();
+    private Bus bus = new RxBus();
 
     private Object receivedEvent;
 

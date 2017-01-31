@@ -43,13 +43,6 @@ public final class RxBus implements Bus {
 
     private final Subject<Object> bus = PublishSubject.create().toSerialized();
 
-    private RxBus() {
-    }
-
-    public static Bus getInstance() {
-        return BusHolder.INSTANCE;
-    }
-
     public void register(@NonNull Object observer) {
         ObjectHelper.requireNonNull(observer, "Observer to register must not be null.");
 
@@ -149,10 +142,6 @@ public final class RxBus implements Bus {
     public void post(@NonNull Object event) {
         ObjectHelper.requireNonNull(event, "Event must not be null.");
         bus.onNext(event);
-    }
-
-    private static final class BusHolder {
-        final static Bus INSTANCE = new RxBus();
     }
 
 }

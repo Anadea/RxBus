@@ -56,7 +56,7 @@ public class RxBusCustomSubscriptionTest {
     @Mock
     Object observer;
 
-    private Bus bus = RxBus.getInstance();
+    private Bus bus = new RxBus();
 
     @Before
     public void setUp() {

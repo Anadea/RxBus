@@ -6,7 +6,15 @@ Event bus based on RxJava and optimized for Android.
 Usage
 -------
 
-##### Subscribing
+We recommend obtaining the single instance of bus through injection or another appropriate mechanism.
+
+Or get singleton like following:
+
+```
+Bus bus = BusProvider.getInstance();
+```
+
+#### Subscribing
 
 To subscribe to an event, declare and annotate a method with @Subscribe. The method should be public and take only a single parameter.
 
@@ -20,7 +28,7 @@ public void onEvent(SomeEvent event) {
 You can also create subscription like following:
 
 ```
-CustomSubscriber<SomeEvent> customSubscriber = eventBus.obtainSubscriber(SomeEvent.class,
+CustomSubscriber<SomeEvent> customSubscriber = bus.obtainSubscriber(SomeEvent.class,
     new Consumer<SomeEvent>() {
         @Override
         public void accept(SomeEvent someEvent) throws Exception {
@@ -36,31 +44,31 @@ CustomSubscriber<SomeEvent> customSubscriber = eventBus.obtainSubscriber(SomeEve
     .withScheduler(Schedulers.trampoline());
 ```
 
-##### Register and unregister your observer
+#### Register and unregister your observer
 
 To receive events, a class instance needs to register with the bus.
 
 ```
-RxBus.getInstance().register(this);
+bus.register(this);
 ```
 
 The customSubscriber also needs to register with the bus.
 
 ```
-RxBus.getInstance().registerSubscriber(this, customSubscriber);
+bus.registerSubscriber(this, customSubscriber);
 ```
 
 Remember to also call the unregister method when appropriate.
 ```
-RxBus.getInstance().unregister(this);
+bus.unregister(this);
 ```
 
-##### Publishing
+#### Publishing
 
 To publish a new event, call the post method:
 
 ```
-RxBus.getInstance().post(new SomeEvent("Message"));
+bus.post(new SomeEvent("Message"));
 ```
 
 
