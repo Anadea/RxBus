@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 apply from: 'jacoco.gradle'
 
 android {
@@ -32,7 +33,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.android.support:support-annotations:25.1.0'
+    compile 'com.android.support:support-annotations:25.1.1'
 
     // Rx
     compile 'io.reactivex.rxjava2:rxjava:2.0.5'
@@ -40,4 +41,14 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
+}
+
+publish {
+    userOrg = 'dubroff'
+    groupId = 'com.github.anadea'
+    artifactId = 'rxbus'
+    publishVersion = '1.0.1'
+    desc = 'Event bus based on RxJava and optimized for Android'
+    licences = ['Apache-2.0']
+    website = 'https://github.com/Anadea/RxBus'
 }
