@@ -71,6 +71,25 @@ To publish a new event, call the post method:
 bus.post(new SomeEvent("Message"));
 ```
 
+#### Add RxBus to your project
+
+Gradle:
+
+```
+compile 'com.github.anadea:rxbus:1.0.1'
+```
+
+Maven:
+
+```
+<dependency>
+    <groupId>com.github.anadea</groupId>
+    <artifactId>rxbus</artifactId>
+    <version>1.0.1</version>
+    <type>pom</type>
+</dependency>
+
+```
 
 ProGuard
 -------
