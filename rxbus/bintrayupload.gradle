@@ -1,0 +1,55 @@
+apply plugin: 'com.jfrog.bintray'
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+bintray {
+    user = BINTRAY_USER
+    key = BINTRAY_KEY
+
+    configurations = ['archives']
+
+    override = true
+
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+
+        websiteUrl = siteUrl
+        issueTrackerUrl = issueUrl
+        vcsUrl = gitUrl
+
+        licenses = allLicenses
+
+        publish = true
+        publicDownloadNumbers = true
+
+        version {
+            name = libraryVersion
+            desc = libraryDescription
+            vcsTag = libraryVersion
+
+            gpg {
+                sign = true
+                passphrase = BINTRAY_GPG
+            }
+        }
+    }
+}
