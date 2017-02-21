@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.anadeainc.rxbus.Bus;
 import com.anadeainc.rxbus.BusProvider;
-import com.anadeainc.rxbus.RxBus;
 import com.anadeainc.rxbus.Subscribe;
 
 public class MainActivity extends AppCompatActivity {

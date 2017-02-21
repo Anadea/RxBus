@@ -16,21 +16,16 @@
 
 package com.anadeainc.rxbus;
 
-import android.support.annotation.NonNull;
+final class Utils {
 
-import rx.functions.Action1;
+    private Utils() {
+    }
 
-public interface Bus {
-
-    void register(@NonNull Object observer);
-
-    <T> CustomSubscriber<T> obtainSubscriber(@NonNull Class<T> eventClass,
-                                             @NonNull Action1<T> receiver);
-
-    <T> void registerSubscriber(@NonNull Object observer, @NonNull CustomSubscriber<T> subscriber);
-
-    void unregister(@NonNull Object observer);
-
-    void post(@NonNull Object event);
+    static <T> T checkNonNull(T object, String message) {
+        if (object == null) {
+            throw new NullPointerException(message);
+        }
+        return object;
+    }
 
 }

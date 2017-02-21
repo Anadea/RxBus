@@ -16,17 +16,11 @@
 
 package com.anadeainc.rxbus;
 
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import io.reactivex.Scheduler;
-import io.reactivex.android.plugins.RxAndroidPlugins;
-import io.reactivex.functions.Function;
-import io.reactivex.plugins.RxJavaPlugins;
-import io.reactivex.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -35,8 +29,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RxBusAnnotatedSubscriptionTest {
+public class AnnotatedSubscriptionTest {
 
+    @Rule
+    public RxSchedulersRule rxSchedulersRule = new RxSchedulersRule();
 
     @Mock
     Object event;
@@ -44,22 +40,6 @@ public class RxBusAnnotatedSubscriptionTest {
     private Bus bus = new RxBus();
 
     private Object receivedEvent;
-
-    @Before
-    public void setUp() {
-        RxJavaPlugins.setIoSchedulerHandler(new Function<Scheduler, Scheduler>() {
-            @Override
-            public Scheduler apply(Scheduler current) throws Exception {
-                return Schedulers.trampoline();
-            }
-        });
-        RxAndroidPlugins.setMainThreadSchedulerHandler(new Function<Scheduler, Scheduler>() {
-            @Override
-            public Scheduler apply(Scheduler current) throws Exception {
-                return Schedulers.trampoline();
-            }
-        });
-    }
 
     @Test
     public void registerRejectNullObserver() {

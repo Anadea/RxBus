@@ -19,21 +19,20 @@ package com.anadeainc.rxbus;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import io.reactivex.Scheduler;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Predicate;
-import io.reactivex.internal.functions.ObjectHelper;
+import rx.Scheduler;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 public class CustomSubscriber<T> extends AbstractSubscriber<T> {
 
     private final int hashCode;
 
     private Class<T> eventClass;
-    private Consumer<T> receiver;
-    private Predicate<T> filter;
+    private Action1<T> receiver;
+    private Func1<T, Boolean> filter;
     private Scheduler scheduler;
 
-    CustomSubscriber(@NonNull Class<T> eventClass, @NonNull Consumer<T> receiver) {
+    CustomSubscriber(@NonNull Class<T> eventClass, @NonNull Action1<T> receiver) {
         this.eventClass = eventClass;
         this.receiver = receiver;
 
@@ -41,15 +40,15 @@ public class CustomSubscriber<T> extends AbstractSubscriber<T> {
     }
 
     @SuppressWarnings("WeakerAccess")
-    public CustomSubscriber<T> withFilter(@NonNull Predicate<T> filter) {
-        ObjectHelper.requireNonNull(filter, "Filter must not be null.");
+    public CustomSubscriber<T> withFilter(@NonNull Func1<T, Boolean> filter) {
+        Utils.checkNonNull(filter, "Filter must not be null.");
         this.filter = filter;
         return this;
     }
 
     @SuppressWarnings("WeakerAccess")
     public CustomSubscriber<T> withScheduler(@NonNull Scheduler scheduler) {
-        ObjectHelper.requireNonNull(scheduler, "Scheduler must not be null.");
+        Utils.checkNonNull(scheduler, "Scheduler must not be null.");
         this.scheduler = scheduler;
         return this;
     }
@@ -60,7 +59,7 @@ public class CustomSubscriber<T> extends AbstractSubscriber<T> {
     }
 
     @Nullable
-    Predicate<T> getFilter() {
+    Func1<T, Boolean> getFilter() {
         return filter;
     }
 
@@ -71,7 +70,7 @@ public class CustomSubscriber<T> extends AbstractSubscriber<T> {
 
     @Override
     protected void acceptEvent(T event) throws Exception {
-        receiver.accept(event);
+        receiver.call(event);
     }
 
     @Override

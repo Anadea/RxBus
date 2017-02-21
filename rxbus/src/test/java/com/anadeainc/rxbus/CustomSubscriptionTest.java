@@ -16,19 +16,15 @@
 
 package com.anadeainc.rxbus;
 
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import io.reactivex.Scheduler;
-import io.reactivex.android.plugins.RxAndroidPlugins;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
-import io.reactivex.plugins.RxJavaPlugins;
-import io.reactivex.schedulers.Schedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -39,16 +35,19 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RxBusCustomSubscriptionTest {
+public class CustomSubscriptionTest {
+
+    @Rule
+    public RxSchedulersRule rxSchedulersRule = new RxSchedulersRule();
 
     @Mock
-    Consumer<Object> consumer;
+    Action1<Object> consumer;
 
     @Mock
-    Consumer<Bus> busConsumer;
+    Action1<Bus> busConsumer;
 
     @Mock
-    Consumer<TestEvent> testEventConsumer;
+    Action1<TestEvent> testEventConsumer;
 
     @Mock
     Object event;
@@ -57,22 +56,6 @@ public class RxBusCustomSubscriptionTest {
     Object observer;
 
     private Bus bus = new RxBus();
-
-    @Before
-    public void setUp() {
-        RxJavaPlugins.setIoSchedulerHandler(new Function<Scheduler, Scheduler>() {
-            @Override
-            public Scheduler apply(Scheduler current) throws Exception {
-                return Schedulers.trampoline();
-            }
-        });
-        RxAndroidPlugins.setMainThreadSchedulerHandler(new Function<Scheduler, Scheduler>() {
-            @Override
-            public Scheduler apply(Scheduler current) throws Exception {
-                return Schedulers.trampoline();
-            }
-        });
-    }
 
     @Test
     public void obtainSubscriberRejections() {
@@ -105,8 +88,8 @@ public class RxBusCustomSubscriptionTest {
         CustomSubscriber<Object> subscriber = bus.obtainSubscriber(Object.class, consumer);
         assertNotNull(subscriber);
         assertEquals(Object.class, subscriber.getEventClass());
-        subscriber.accept(event);
-        verify(consumer).accept(event);
+        subscriber.call(event);
+        verify(consumer).call(event);
     }
 
     @Test
@@ -157,7 +140,7 @@ public class RxBusCustomSubscriptionTest {
         CustomSubscriber<Object> subscriber = bus.obtainSubscriber(Object.class, consumer);
         bus.registerSubscriber(observer, subscriber);
         bus.post(event);
-        verify(consumer).accept(event);
+        verify(consumer).call(event);
 
         bus.unregister(observer);
     }
@@ -169,7 +152,7 @@ public class RxBusCustomSubscriptionTest {
                 .withScheduler(Schedulers.io());
         bus.registerSubscriber(observer, subscriber);
         bus.post(event);
-        verify(consumer).accept(event);
+        verify(consumer).call(event);
 
         bus.unregister(observer);
     }
@@ -178,17 +161,17 @@ public class RxBusCustomSubscriptionTest {
     public void registerCustomSubscriberWithFilter() throws Exception {
         CustomSubscriber<TestEvent> subscriber = bus
                 .obtainSubscriber(TestEvent.class, testEventConsumer)
-                .withFilter(new Predicate<TestEvent>() {
+                .withFilter(new Func1<TestEvent, Boolean>() {
                     @Override
-                    public boolean test(TestEvent testEvent) throws Exception {
+                    public Boolean call(TestEvent testEvent) {
                         return testEvent == TestEvent.TWO;
                     }
                 });
         bus.registerSubscriber(observer, subscriber);
         bus.post(TestEvent.ONE);
-        verify(testEventConsumer, never()).accept(TestEvent.ONE);
+        verify(testEventConsumer, never()).call(TestEvent.ONE);
         bus.post(TestEvent.TWO);
-        verify(testEventConsumer).accept(TestEvent.TWO);
+        verify(testEventConsumer).call(TestEvent.TWO);
 
         bus.unregister(observer);
     }
@@ -216,10 +199,10 @@ public class RxBusCustomSubscriptionTest {
         CustomSubscriber<Object> subscriber = bus.obtainSubscriber(Object.class, consumer);
         bus.registerSubscriber(observer, subscriber);
         bus.post(event);
-        verify(consumer).accept(event);
+        verify(consumer).call(event);
         bus.unregister(observer);
         bus.post(event);
-        verify(consumer, times(1)).accept(event);
+        verify(consumer, times(1)).call(event);
     }
 
     private enum TestEvent {

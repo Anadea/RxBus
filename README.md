@@ -1,7 +1,7 @@
 RxBus
 ===========
 
-Event bus based on RxJava and optimized for Android.
+Event bus based on RxJava (v1.x) and optimized for Android.
 
 Usage
 -------
@@ -73,23 +73,7 @@ bus.post(new SomeEvent("Message"));
 
 #### Add RxBus to your project
 
-Gradle:
-
-```
-compile 'com.github.anadea:rxbus:1.0.1'
-```
-
-Maven:
-
-```
-<dependency>
-    <groupId>com.github.anadea</groupId>
-    <artifactId>rxbus</artifactId>
-    <version>1.0.1</version>
-    <type>pom</type>
-</dependency>
-
-```
+[Import the library module to your project.](https://developer.android.com/studio/projects/android-library.html#AddDependency)
 
 ProGuard
 -------

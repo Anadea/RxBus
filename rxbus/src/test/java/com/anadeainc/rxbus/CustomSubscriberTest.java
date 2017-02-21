@@ -22,9 +22,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import io.reactivex.Scheduler;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Predicate;
+import rx.Scheduler;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -42,16 +42,16 @@ public class CustomSubscriberTest {
     Object object;
 
     @Mock
-    Consumer<Object> receiver;
+    Action1<Object> receiver;
 
     @Mock
-    Consumer<Object> otherReceiver;
+    Action1<Object> otherReceiver;
 
     @Mock
-    Consumer<String> anotherReceiver;
+    Action1<String> anotherReceiver;
 
     @Mock
-    Predicate<Object> filter;
+    Func1<Object, Boolean> filter;
 
     @Mock
     Scheduler scheduler;
@@ -110,7 +110,7 @@ public class CustomSubscriberTest {
     @Test
     public void testAcceptEvent() throws Exception {
         subscriber.acceptEvent(object);
-        verify(receiver).accept(object);
+        verify(receiver).call(object);
     }
 
     @Test

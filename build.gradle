@@ -6,11 +6,10 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'org.jacoco:org.jacoco.core:0.7.8'
+        classpath 'org.jacoco:org.jacoco.core:0.7.9'
         classpath 'me.tatarka:gradle-retrolambda:3.5.0'
         classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+
     }
 
     // Exclude the version that the android plugin depends on.

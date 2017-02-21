@@ -16,15 +16,15 @@
 
 package com.anadeainc.rxbus;
 
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
+import rx.Subscription;
+import rx.functions.Action1;
 
-abstract class AbstractSubscriber<T> implements Consumer<T>, Disposable {
+abstract class AbstractSubscriber<T> implements Action1<T>, Subscription {
 
-    private volatile boolean disposed;
+    private volatile boolean unsubscribed;
 
     @Override
-    public void accept(T event) {
+    public void call(T event) {
         try {
             acceptEvent(event);
         } catch (Exception e) {
@@ -34,17 +34,16 @@ abstract class AbstractSubscriber<T> implements Consumer<T>, Disposable {
     }
 
     @Override
-    public void dispose() {
-        if (disposed)
-            return;
-
-        disposed = true;
-        release();
+    public boolean isUnsubscribed() {
+        return unsubscribed;
     }
 
     @Override
-    public boolean isDisposed() {
-        return disposed;
+    public void unsubscribe() {
+        if (unsubscribed)
+            return;
+        unsubscribed = true;
+        release();
     }
 
     protected abstract void acceptEvent(T event) throws Exception;

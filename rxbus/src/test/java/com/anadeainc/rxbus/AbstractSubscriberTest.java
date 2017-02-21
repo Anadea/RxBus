@@ -41,7 +41,7 @@ public class AbstractSubscriberTest {
 
     @Test
     public void testAcceptEvent() throws Exception {
-        subscriber.accept(event);
+        subscriber.call(event);
         verify(subscriber).acceptEvent(event);
     }
 
@@ -49,7 +49,7 @@ public class AbstractSubscriberTest {
     public void testAcceptEventWithException() throws Exception {
         doThrow(new RuntimeException()).when(subscriber).acceptEvent(event);
         try {
-            subscriber.accept(event);
+            subscriber.call(event);
             fail("Expected an RuntimeException to be thrown");
         } catch (Exception e) {
             assertEquals("Could not dispatch event: " + event.getClass(), e.getMessage());
@@ -58,13 +58,13 @@ public class AbstractSubscriberTest {
 
     @Test
     public void testDispose() {
-        assertFalse(subscriber.isDisposed());
-        subscriber.dispose();
+        assertFalse(subscriber.isUnsubscribed());
+        subscriber.unsubscribe();
 
-        assertTrue(subscriber.isDisposed());
+        assertTrue(subscriber.isUnsubscribed());
         verify(subscriber).release();
 
-        subscriber.dispose();
+        subscriber.unsubscribe();
         verify(subscriber, times(1)).release();
     }
 

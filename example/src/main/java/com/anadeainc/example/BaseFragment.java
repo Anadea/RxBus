@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.anadeainc.rxbus.Bus;
 import com.anadeainc.rxbus.BusProvider;
-import com.anadeainc.rxbus.RxBus;
 
 public abstract class BaseFragment extends Fragment {
 
