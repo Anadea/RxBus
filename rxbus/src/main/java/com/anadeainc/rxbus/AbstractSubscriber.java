@@ -28,18 +28,16 @@ abstract class AbstractSubscriber<T> implements Consumer<T>, Disposable {
         try {
             acceptEvent(event);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Could not dispatch event: " + event.getClass());
+            throw new RuntimeException("Could not dispatch event: " + event.getClass(), e);
         }
     }
 
     @Override
     public void dispose() {
-        if (disposed)
-            return;
-
-        disposed = true;
-        release();
+        if (!disposed) {
+            disposed = true;
+            release();
+        }
     }
 
     @Override
